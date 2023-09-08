@@ -20,7 +20,24 @@ const addOnePokemon = pokemon => ({
   type: ADD_ONE,
   pokemon
 });
+
 // thunk action creator
+export const createPokemon = pokemon => async dispatch => {
+  const response = await fetch('/api/pokemon', {
+    method: 'POST',
+    body: JSON.stringify(pokemon),
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    }
+  });
+
+  if (response.ok) {
+    const poke = await response.json();
+    dispatch(addOnePokemon(poke))
+  }
+}
+
 export const showPokemon = (id) => async dispatch => {
   const response = await fetch(`/api/pokemon/${id}`) 
 
@@ -28,8 +45,6 @@ export const showPokemon = (id) => async dispatch => {
     const poke = await response.json();
     dispatch(addOnePokemon(poke))
   }
-
-
 }
 
 export const getPokemon = () => async dispatch => {
