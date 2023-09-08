@@ -22,6 +22,22 @@ const addOnePokemon = pokemon => ({
 });
 
 // thunk action creator
+export const updatePokemon = (pokemon) => async dispatch => {
+  const response = await fetch(`/api/pokemon/${pokemon.id}`, {
+    method: 'PATCH',
+    body: JSON.stringify(pokemon),
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    }
+  })
+
+  if (response.ok) {
+    const poke = await response.json();
+    dispatch(addOnePokemon(poke))
+  }
+}
+
 export const createPokemon = pokemon => async dispatch => {
   const response = await fetch('/api/pokemon', {
     method: 'POST',
