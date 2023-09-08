@@ -4,6 +4,8 @@ const LOAD = 'pokemon/LOAD';
 const LOAD_TYPES = 'pokemon/LOAD_TYPES';
 const ADD_ONE = 'pokemon/ADD_ONE';
 
+// action creators
+
 const load = list => ({
   type: LOAD,
   list
@@ -18,6 +20,17 @@ const addOnePokemon = pokemon => ({
   type: ADD_ONE,
   pokemon
 });
+// thunk action creator
+export const showPokemon = (id) => async dispatch => {
+  const response = await fetch(`/api/pokemon/${id}`) 
+
+  if (response.ok) {
+    const poke = await response.json();
+    dispatch(addOnePokemon(poke))
+  }
+
+
+}
 
 export const getPokemon = () => async dispatch => {
   const response = await fetch(`/api/pokemon`);
